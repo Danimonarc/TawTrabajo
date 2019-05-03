@@ -16,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,6 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Grupo.findByPrivado", query = "SELECT g FROM Grupo g WHERE g.privado = :privado")
     , @NamedQuery(name = "Grupo.findByImagen", query = "SELECT g FROM Grupo g WHERE g.imagen = :imagen")})
 public class Grupo implements Serializable {
+
+    @OneToMany(mappedBy = "grupoId")
+    private List<Post> postList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -150,6 +154,15 @@ public class Grupo implements Serializable {
     @Override
     public String toString() {
         return "entity.Grupo[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Post> getPostList() {
+        return postList;
+    }
+
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
     }
     
 }

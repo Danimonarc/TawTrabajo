@@ -12,6 +12,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -34,6 +36,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Post.findByContenido", query = "SELECT p FROM Post p WHERE p.contenido = :contenido")
     , @NamedQuery(name = "Post.findByPrivado", query = "SELECT p FROM Post p WHERE p.privado = :privado")})
 public class Post implements Serializable {
+
+    @JoinColumn(name = "grupo_id", referencedColumnName = "id")
+    @ManyToOne
+    private Grupo grupoId;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -122,6 +128,14 @@ public class Post implements Serializable {
     @Override
     public String toString() {
         return "entity.Post[ id=" + id + " ]";
+    }
+
+    public Grupo getGrupoId() {
+        return grupoId;
+    }
+
+    public void setGrupoId(Grupo grupoId) {
+        this.grupoId = grupoId;
     }
     
 }
